@@ -67,7 +67,12 @@ const rules = {
           v-if="store?.errors?.password"
           :text="store.errors.password[0]"
         />
-        
+        <v-alert
+          type="error"
+          v-if="store?.errors?.login"
+          :text="store.errors?.login"
+          class="mb-2"
+        />
         <v-btn block type="submit" class="mb-8" color="blue" size="large" variant="tonal">
           Log In
         </v-btn>
