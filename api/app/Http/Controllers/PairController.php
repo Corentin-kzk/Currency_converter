@@ -15,7 +15,22 @@ class PairController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $pairs = Pair::with('currencyFrom', 'currencyTo')->get();
+
+            // // Remplacer les identifiants par les codes de devise dans chaque paire
+            $pairs->transform(function ($pair) {
+                return [
+                    'from' => $pair->currencyFrom->code,
+                    'to' => $pair->currencyTo->code,
+                    'conversion_rate' => $pair->conversion_rate,
+                ];
+            });
+
+            return response()->json(['pairs' => $pairs], 200);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), $th->getCode());
+        }
     }
 
     /**
@@ -78,21 +93,17 @@ class PairController extends Controller
                 'to' => 'required|exists:currencies,code',
             ]);
             // Récupérer les codes de devise "from" et "to" fournis dans le corps de la requête
-        $fromCurrencyCode = $request->input('from');
-        $toCurrencyCode = $request->input('to');
-        var_dump($fromCurrencyCode, $toCurrencyCode);
-        // Récupérer les identifiants des devises associées aux codes de devises "from" et "to"
-        $fromCurrency = Currency::where('code', $fromCurrencyCode)->firstOrFail();
-        $toCurrency = Currency::where('code', $toCurrencyCode)->firstOrFail();
-        // Récupérer la valeur de "count" dans la table "Pairs" en fonction des devises "from" et "to"
-        $pairFounded = Pair::select(['count'])->where('from_currency_id', $fromCurrency->id)->where('to_currency_id', $toCurrency->id)->firstOrFail();
-        // Retourner la valeur de "count" sous forme de réponse JSON
-        return response()->json(['count' => $pairFounded->count]);
+            $fromCurrencyCode = $request->input('from');
+            $toCurrencyCode = $request->input('to');
+            // Récupérer les identifiants des devises associées aux codes de devises "from" et "to"
+            $fromCurrency = Currency::where('code', $fromCurrencyCode)->firstOrFail();
+            $toCurrency = Currency::where('code', $toCurrencyCode)->firstOrFail();
+
+            $pairFounded = Pair::select(['count'])->where('from_currency_id', $fromCurrency->id)->where('to_currency_id', $toCurrency->id)->firstOrFail();
+            // Retourner la valeur de "count" sous forme de réponse JSON
+            return response()->json(['count' => $pairFounded->count]);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), $th->getCode());
         }
-       
-
-        
     }
 }

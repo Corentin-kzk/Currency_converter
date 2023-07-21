@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PairController;
+use App\Http\Controllers\ServerStatusController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
+Route::get('/pairs', [PairController::class, 'index']);
 Route::get('/count', [PairController::class, 'getCountByCurrenciesCode']);
+Route::get('/ping', [ServerStatusController::class, 'serverStatus']);
