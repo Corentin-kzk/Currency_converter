@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Currency;
+use App\Models\Pair;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,11 +18,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
+    $this->call([
+        UserSeeder::class,
+        CurrencySeeder::class,
+        PairSeeder::class,
 
-        \App\Models\User::factory()->create([
-            'name' => 'admin User',
-            "email" => "admin@admin.com",
-            'password' => Hash::make('admin123'),
-        ]);
+    ]);
+ 
+
+        
+       
     }
 }
