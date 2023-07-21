@@ -82,6 +82,43 @@ class PairController extends Controller
     }
 
     /**
+     * get conversion with pair
+     */
+
+    public function getConvertedDataFromPair(Request $request)
+    {
+        try {
+            $request->validate([
+                'from' => 'required|exists:currencies,code',
+                'to' => 'required|exists:currencies,code',
+                'amount' => 'required|numeric'
+            ]);
+            // Récupérer les codes de devise "from", "to" et amount fournis dans le corps de la requête
+            $fromCurrencyCode = $request->input('from');
+            $toCurrencyCode = $request->input('to');
+            $amoutToConvert = $request->input('amount');
+
+            // Récupérer les identifiants des devises associées aux codes de devises "from" et "to"
+            $fromCurrency = Currency::where('code', $fromCurrencyCode)->firstOrFail();
+            $toCurrency = Currency::where('code', $toCurrencyCode)->firstOrFail();
+
+            $conversionRatefromPair = Pair::select(['conversion_rate', 'id'])->where('from_currency_id', $fromCurrency->id)->where('to_currency_id', $toCurrency->id)->firstOrFail();
+
+            $convertedValue =  $conversionRatefromPair->conversion_rate * $amoutToConvert;
+            //Ajoute +1 au field count a chaque appel de l'api
+            $pair = Pair::where('id', $conversionRatefromPair->id)->firstOrFail();
+            $pair->count += 1;
+            $pair->update();
+
+            return response()->json([
+                ["converted_value" => $convertedValue], 200
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), $th->getCode());
+        }
+    }
+
+    /**
      * get field count on pair
      */
     public function getCountByCurrenciesCode(Request $request)

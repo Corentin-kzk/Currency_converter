@@ -23,4 +23,5 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::get('/pairs', [PairController::class, 'index']);
 Route::get('/count', [PairController::class, 'getCountByCurrenciesCode']);
+Route::get('/convertion', [PairController::class, 'getConvertedDataFromPair']);
 Route::get('/ping', [ServerStatusController::class, 'serverStatus']);
