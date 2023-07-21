@@ -39,8 +39,6 @@ export const store = reactive({
         } catch (error) {
             this.errors = { login : error.message}  
         }
-        console.log("🚀 ~ file: auth.js:40 ~ handleLogin ~ this.errors :", this.errors )
-        console.log("🚀 ~ file: auth.js:35 ~ handleLogin ~ this.user:", this.user)
 
         
     },
