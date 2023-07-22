@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { store } from "@/services/auth.js";
 import { isValidEmail } from "@/services/utils";
+import { useCookies } from "vue3-cookies";
 
 const form = ref({
   email: "",

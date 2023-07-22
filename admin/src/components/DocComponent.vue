@@ -1,12 +1,10 @@
 <script setup>
 const props = defineProps(['data', 'apiUrl'])
-console.log(props.data)
-
 </script>
 
 <template>
     <div class="my-3 w-100 container">
-        <v-card-title class="doc-title"><strong>Route:</strong> <a :href="props.apiUrl+props.data.route" target="_blank"
+        <v-card-title class="doc-title"><strong>Route:</strong> <a :href="props.apiUrl+props.data.exampleRequest" target="_blank"
                 rel="noopener noreferrer">{{ props.apiUrl }}{{ props.data.route }}</a></v-card-title>
         <v-card-text class="doc-text">
             <p><strong>Description:</strong> {{ props.data.description }}</p>

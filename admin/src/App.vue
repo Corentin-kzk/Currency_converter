@@ -6,7 +6,6 @@ import { store } from "@/services/auth.js";
 
 <template>
   <main>
-    <NavBar  v-if="store.user"/>
     <router-view />
   </main>
 </template>
