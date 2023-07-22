@@ -4,10 +4,17 @@ import isNotLogged from '@/middleware/isNotLogged';
 
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
+import DocumentationView from "@/views/DocumentationView.vue";
+
 
 const routes = [
   {
-    path: "/",
+    path:'/',
+    name:'Documentation',
+    component: DocumentationView
+  },
+  {
+    path: "/Admin",
     name: "Home",
     component: HomeView,
     meta: {
