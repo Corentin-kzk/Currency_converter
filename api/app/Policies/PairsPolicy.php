@@ -37,7 +37,7 @@ class PairsPolicy
      */
     public function update(User $user, Pairs $pairs): bool
     {
-        //
+        return true;
     }
 
     /**

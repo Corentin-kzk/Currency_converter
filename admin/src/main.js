@@ -25,7 +25,7 @@ createApp(App)
     expireTimes: "30d",
     path: "/",
     domain: "",
-    secure: false,
+    secure: true,
     sameSite: "None",
   })
   .mount('#app')

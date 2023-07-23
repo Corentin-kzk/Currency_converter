@@ -5,7 +5,14 @@ import { store } from "@/services/auth.js";
 </script>
 
 <template>
-  <main>
-    <router-view />
-  </main>
+  <v-layout>
+    <header v-if="store.user">
+      <NavBar />
+    </header>
+    <v-main>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-main>
+  </v-layout>
 </template>

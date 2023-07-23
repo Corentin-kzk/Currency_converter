@@ -1,14 +1,28 @@
 <script setup>
 
-import { useQuery } from "@tanstack/vue-query";
-import {QUERY_KEY_PAIRS, getPairs} from "../services/api/pairs"
+import { useQuery, useMutation } from "@tanstack/vue-query";
+import { QUERY_KEY_PAIRS, getPairs, updatePair } from "../services/api/pairs"
+import { ref, watch } from 'vue'
+import router from "@/router";
 
-const { isLoading, isFetching, isError, data, error } = useQuery({
+const { isLoading, isFetching, isError, data: pairs, error } = useQuery({
   queryKey: [QUERY_KEY_PAIRS],
   queryFn: getPairs,
 })
-console.log("🚀 ~ file: HomeView.vue:10 ~ isLoading, isFetching, isError, data, error:", isLoading, isFetching, isError, data, error)
 
+const dialog = ref(true)
+
+const form = ref({
+  from: "",
+  to: "",
+  conversion_rate: ""
+});
+
+
+
+function handleUpdate(id) {
+  router.push(`/admin/pair/update/${id}`)
+}
 </script>
 
 <template>
@@ -16,23 +30,34 @@ console.log("🚀 ~ file: HomeView.vue:10 ~ isLoading, isFetching, isError, data
     <v-row>
       <h1>List of currencies pairs</h1>
     </v-row>
+
     <v-row>
       <v-col xs="12" cols="12">
-        <v-table>
+
+        <v-table fixed-header height="80vh">
           <thead>
             <tr>
               <th class="text-left">
-                Name
+                From
               </th>
               <th class="text-left">
-                Calories
+                To
               </th>
+              <th class="text-left">
+                Conversion rate
+              </th>
+
             </tr>
+
           </thead>
           <tbody>
-            <tr v-for="item in desserts" :key="item.name">
-              <td>{{ item.name }}</td>
-              <td>{{ item.calories }}</td>
+            <tr v-for="item in pairs" :key="item.from">
+              <td>{{ item.from }}</td>
+              <td>{{ item.to }}</td>
+              <td>{{ item.conversion_rate }}</td>
+              <td> <v-btn density="compact" color="green" @click="handleUpdate(item.id)">Update</v-btn>
+                <v-btn density="compact" color="red"  @click="handleDelete(item.id)">Delete</v-btn>
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -40,3 +65,9 @@ console.log("🚀 ~ file: HomeView.vue:10 ~ isLoading, isFetching, isError, data
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+td {
+  width: 30%;
+}
+</style>

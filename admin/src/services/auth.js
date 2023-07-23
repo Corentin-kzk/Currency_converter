@@ -1,6 +1,7 @@
 import { reactive } from 'vue'
 import router from "@/router";
 import axiosInstance from "@/services/axios";
+import { useCookies } from 'vue3-cookies';
 
 export const store = reactive({
     user: null,
@@ -14,9 +15,11 @@ export const store = reactive({
         try {
             const data = await axiosInstance.get("/api/user");
             if (data) {
+                this.user = data
                 return data
             }
         } catch (error) {
+            this.user = null
             return null;
         }
     },
@@ -29,21 +32,27 @@ export const store = reactive({
                 email: data.email,
                 password: data.password,
             });
-            console.log(response);
             if (response?.status === 202) {
                 const loggedUser = await this.getUser()
                 this.user = loggedUser.data
-                
-                router.push("/")
+
+                router.push("/admin")
             }
         } catch (error) {
-            this.errors = { login : error.message}  
+            this.errors = { login: error.message }
         }
 
-        
+
     },
     async handleLogout() {
         await axiosInstance.post("/logout");
         this.user = null;
+        router.push("/")
     },
+    async getCookie(key) {
+        const { cookies } = useCookies();
+        const cookie = cookies.get(key)
+        console.log("🚀 ~ file: auth.js:52 ~ getCookie ~ cookie:", cookie)
+        return  cookie
+    }
 });

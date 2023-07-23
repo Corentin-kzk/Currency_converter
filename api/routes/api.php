@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\PairController;
 use App\Http\Controllers\ServerStatusController;
 use Illuminate\Http\Request;
@@ -20,6 +21,10 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['prefix'=>'admin', 'middleware'=> 'auth:sanctum'] ,function () {
+    Route::resource('/pairs', PairController::class);
+    Route::resource('/currencies', CurrencyController::class);
+});
 
 Route::get('/pairs', [PairController::class, 'index']);
 Route::get('/count', [PairController::class, 'getCountByCurrenciesCode']);

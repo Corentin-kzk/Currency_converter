@@ -21,9 +21,11 @@ class PairController extends Controller
             // // Remplacer les identifiants par les codes de devise dans chaque paire
             $pairs->transform(function ($pair) {
                 return [
+                    'id' => $pair->id,
                     'from' => $pair->currencyFrom->code,
                     'to' => $pair->currencyTo->code,
                     'conversion_rate' => $pair->conversion_rate,
+                    'count' => $pair->count,
                 ];
             });
 
@@ -32,21 +34,43 @@ class PairController extends Controller
             return response()->json($th->getMessage(), $th->getCode());
         }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(StorePairsRequest $request)
     {
-        //
+        return response('success', 200);
+        // Vérifier si la devise 'from' existe
+        $fromCurrency = Currency::where('code', $request->input('from'))->first();
+        if (!$fromCurrency) {
+            // Si la devise 'from' n'existe pas, la créer
+            $fromCurrency = Currency::create(['code' => $request->input('from')]);
+        }
+
+        // Vérifier si la devise 'to' existe
+        $toCurrency = Currency::where('code', $request->input('to'))->first();
+        if (!$toCurrency) {
+            // Si la devise 'to' n'existe pas, la créer
+            $toCurrency = Currency::create(['code' => $request->input('to')]);
+        }
+
+        // Vérifier si la paire existe
+        $pair = Pair::where('from_currency_id', $fromCurrency->id)
+            ->where('to_currency_id', $toCurrency->id)
+            ->first();
+
+        if (!$pair) {
+            // Si la paire n'existe pas, la créer
+            $pair = Pair::create([
+                'from_currency_id' => $fromCurrency->id,
+                'to_currency_id' => $toCurrency->id,
+                'conversion_rate' =>  $request->input('conversion_rate'),
+            ]);
+            return response()->json(['message' => 'New pair successfully added.']);
+        } else {
+            // Si la paire existe, mettre à jour la conversion
+            return response()->json('Error: this pair already exist',304);
+        }
     }
 
     /**
@@ -54,15 +78,18 @@ class PairController extends Controller
      */
     public function show(Pair $Pair)
     {
-        //
-    }
+        $pair = Pair::with('currencyFrom', 'currencyTo')->where('id', $Pair->id)->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Pair $Pair)
-    {
-        //
+        // // Remplacer les identifiants par les codes de devise dans chaque paire
+        $pair->transform(function ($pair) {
+            return [
+                'id' => $pair->id,
+                'from' => $pair->currencyFrom->code,
+                'to' => $pair->currencyTo->code,
+                'conversion_rate' => $pair->conversion_rate,
+            ];
+        });
+        return response()->json($pair[0], 200);
     }
 
     /**
@@ -70,7 +97,7 @@ class PairController extends Controller
      */
     public function update(UpdatePairsRequest $request, Pair $Pair)
     {
-        //
+
     }
 
     /**

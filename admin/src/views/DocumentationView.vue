@@ -11,7 +11,7 @@ import DocComponent from '@/components/DocComponent.vue';
     arguments: 'None',
     successfulResponse: '200 OK with the text "pong"',
     exampleRequest: '/api/ping',
-    exampleResponse: 'pong'
+    exampleResponse: "The Laravel server is online and functioning correctly."
   },
   {
     route: '/api/count',
