@@ -46,6 +46,9 @@ function handleUpdate(id) {
               <th class="text-left">
                 Conversion rate
               </th>
+              <th>
+                Conversion call
+              </th>
 
             </tr>
 
@@ -55,6 +58,7 @@ function handleUpdate(id) {
               <td>{{ item.from }}</td>
               <td>{{ item.to }}</td>
               <td>{{ item.conversion_rate }}</td>
+              <td>{{ item.count }}</td>
               <td> <v-btn density="compact" color="green" @click="handleUpdate(item.id)">Update</v-btn>
                 <v-btn density="compact" color="red"  @click="handleDelete(item.id)">Delete</v-btn>
               </td>
@@ -68,6 +72,6 @@ function handleUpdate(id) {
 
 <style scoped>
 td {
-  width: 30%;
+  width: 25%;
 }
 </style>

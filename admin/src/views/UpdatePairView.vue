@@ -2,6 +2,11 @@
 import { defineProps, reactive } from "vue";
 import { useQuery, useMutation } from "@tanstack/vue-query";
 import { QUERY_KEY_PAIRS, getPair, updatePair } from "../services/api/pairs"
+import { QueryClient } from '@tanstack/vue-query'
+import router from "@/router";
+
+const queryClient = new QueryClient()
+
 
 const props = defineProps({
     id: {
@@ -30,6 +35,7 @@ const mutation = useMutation({
     mutationFn: updatePair,
     onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAIRS] })
+        router.push('/admin');
     },
 })
 
@@ -48,10 +54,10 @@ function onUpdateSubmit() {
         </v-row>
         <v-form @submit.prevent="onUpdateSubmit" v-else>
             <v-responsive class="mx-auto my-4">
-                <v-text-field v-model="form.from"  clearable hide-details="auto" label="From"></v-text-field>
+                <v-text-field v-model="form.from"  clearable hide-details="auto" disabled label="From"></v-text-field>
             </v-responsive>
             <v-responsive class="mx-auto my-4">
-                <v-text-field v-model="form.to" clearable hide-details="auto" label="to"></v-text-field>
+                <v-text-field v-model="form.to" clearable hide-details="auto" disabled label="to"></v-text-field>
             </v-responsive>
             <v-responsive class="mx-auto my-4">
                 <v-text-field v-model="form.conversion_rate" clearable hide-details="auto"

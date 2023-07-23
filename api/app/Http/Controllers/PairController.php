@@ -97,7 +97,9 @@ class PairController extends Controller
      */
     public function update(UpdatePairsRequest $request, Pair $Pair)
     {
-
+        $Pair->conversion_rate = $request->input('conversion_rate');
+        $Pair->save();
+        return response('success', 200);
     }
 
     /**
