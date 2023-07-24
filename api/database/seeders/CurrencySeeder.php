@@ -13,6 +13,6 @@ class CurrencySeeder extends Seeder
      */
     public function run(): void
     {
-        Currency::factory()->count(3)->create();
+        Currency::factory()->count(10)->create();
     }
 }

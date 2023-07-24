@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pair extends Model
 {
     use HasFactory;
-    protected $fillable = ['conversion_rate'];
+    protected $fillable = ['conversion_rate', 'to_currency_id', 'from_currency_id'];
     public function currencyFrom()
     {
         return $this->belongsTo(Currency::class, 'from_currency_id');

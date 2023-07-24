@@ -24,9 +24,9 @@ const form = reactive({
 const { isLoading, isSuccess } = useQuery({
     queryKey: [QUERY_KEY_PAIRS],
     queryFn: () => getPair(props.id),
-    onSuccess:(data) => {
+    onSuccess: (data) => {
         form.from = data.from
-        form.to=data.to
+        form.to = data.to
         form.conversion_rate = data.conversion_rate
     }
 })
@@ -53,12 +53,21 @@ function onUpdateSubmit() {
             <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
         </v-row>
         <v-form @submit.prevent="onUpdateSubmit" v-else>
-            <v-responsive class="mx-auto my-4">
-                <v-text-field v-model="form.from"  clearable hide-details="auto" disabled label="From"></v-text-field>
-            </v-responsive>
-            <v-responsive class="mx-auto my-4">
-                <v-text-field v-model="form.to" clearable hide-details="auto" disabled label="to"></v-text-field>
-            </v-responsive>
+            <v-row>
+                <v-col>
+                    <v-responsive class="mx-auto my-4">
+                        <v-text-field v-model="form.from" clearable hide-details="auto" disabled
+                            label="From"></v-text-field>
+                    </v-responsive>
+                </v-col>
+                <v-col>
+                    <v-responsive class="mx-auto my-4">
+                        <v-text-field v-model="form.to" clearable hide-details="auto" disabled label="to"></v-text-field>
+                    </v-responsive>
+                </v-col>
+            </v-row>
+
+
             <v-responsive class="mx-auto my-4">
                 <v-text-field v-model="form.conversion_rate" clearable hide-details="auto"
                     label="Conversion rate"></v-text-field>

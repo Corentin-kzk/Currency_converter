@@ -19,7 +19,8 @@ const rules = {
 </script>
 
 <template>
-  <div>
+  <div class="center">
+    <h1 style="text-align: center;">Currency converter</h1>
     <v-card
       class="mx-auto pa-12 pb-8"
       elevation="8"
@@ -75,3 +76,5 @@ const rules = {
     </v-card>
   </div>
 </template>
+
+

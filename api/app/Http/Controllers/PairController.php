@@ -39,38 +39,31 @@ class PairController extends Controller
      */
     public function store(StorePairsRequest $request)
     {
-        return response('success', 200);
-        // Vérifier si la devise 'from' existe
-        $fromCurrency = Currency::where('code', $request->input('from'))->first();
-        if (!$fromCurrency) {
-            // Si la devise 'from' n'existe pas, la créer
-            $fromCurrency = Currency::create(['code' => $request->input('from')]);
+        // Valider les données envoyées depuis le front-end
+        $validatedData = $request->validate([
+            'from' => 'required|string',
+            'to' => 'required|string|different:from',
+            'conversion_rate' => 'required|string'
+        ]);
+
+        // Récupérer les devises correspondant aux valeurs "from" et "to"
+        $fromCurrency = Currency::where('name', $validatedData['from'])->first();
+        $toCurrency = Currency::where('name', $validatedData['to'])->first();
+
+        // Vérifier si les devises existent en base de données
+        if (!$fromCurrency || !$toCurrency) {
+            return response()->json(['message' => 'currency not found'], 404);
+        }
+        
+        // Vérifier si la paire existe en base de données
+        $pairAlreadyExist = Pair::where('to_currency_id', $toCurrency->id)->where('from_currency_id',$fromCurrency->id)->firstOrFail();
+        if ($pairAlreadyExist) {
+            return response()->json(['message' => 'This pair already exist'], 302);
         }
 
-        // Vérifier si la devise 'to' existe
-        $toCurrency = Currency::where('code', $request->input('to'))->first();
-        if (!$toCurrency) {
-            // Si la devise 'to' n'existe pas, la créer
-            $toCurrency = Currency::create(['code' => $request->input('to')]);
-        }
+        Pair::create(['to_currency_id' => $toCurrency->id, 'from_currency_id' =>  $fromCurrency->id, 'conversion_rate'=>  $validatedData['conversion_rate']]);
 
-        // Vérifier si la paire existe
-        $pair = Pair::where('from_currency_id', $fromCurrency->id)
-            ->where('to_currency_id', $toCurrency->id)
-            ->first();
-
-        if (!$pair) {
-            // Si la paire n'existe pas, la créer
-            $pair = Pair::create([
-                'from_currency_id' => $fromCurrency->id,
-                'to_currency_id' => $toCurrency->id,
-                'conversion_rate' =>  $request->input('conversion_rate'),
-            ]);
-            return response()->json(['message' => 'New pair successfully added.']);
-        } else {
-            // Si la paire existe, mettre à jour la conversion
-            return response()->json('Error: this pair already exist',304);
-        }
+        return response()->json(['message'=>'success'], 200);
     }
 
     /**
