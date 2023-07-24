@@ -1,11 +1,12 @@
 <script setup>
 import { reactive, ref, watch } from "vue";
-import { QueryClient, useMutation, useQuery } from "@tanstack/vue-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/vue-query";
 import { QUERY_KEY_PAIRS, getPair, updatePair, createPair } from "../services/api/pairs"
 import { getCurrencies, QUERY_KEY_CURRENCY } from '../services/api/currencies'
 import router from "@/router";
 
-const queryClient = new QueryClient()
+const queryClient = useQueryClient()
+
 const form = reactive({
     from: "",
     to: "",
@@ -41,13 +42,12 @@ watch(form, () => {
         errors.value = { currency: "The currencies cannot be the same." }
         return 
     }
-
     errors.value = {}
 });
 
 
 const rules = {
-    required: (value) => value?.trim() !== "" ? true : "Champ obligatoire",
+    required: (value) => value?.trim() !== "" ? true : "Required",
     mustBeNumber: (value) => !isNaN(value) ? true : "the value must be a number"
 }
 </script>

@@ -1,27 +1,34 @@
 <script setup>
 
-import { useQuery, useMutation } from "@tanstack/vue-query";
-import { QUERY_KEY_PAIRS, getPairs, updatePair } from "../services/api/pairs"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/vue-query";
+import { QUERY_KEY_PAIRS, getPairs, deletePair } from "../services/api/pairs"
 import { ref, watch } from 'vue'
 import router from "@/router";
 
-const { isLoading, isFetching, isError, data: pairs, error } = useQuery({
+const { data: pairs } = useQuery({
   queryKey: [QUERY_KEY_PAIRS],
   queryFn: getPairs,
 })
 
 const dialog = ref(true)
 
-const form = ref({
-  from: "",
-  to: "",
-  conversion_rate: ""
-});
 
 
+const queryClient = useQueryClient()
+
+const mutation = useMutation({
+    mutationFn: deletePair,
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAIRS] })
+        router.push('/admin')
+    },
+})
 
 function handleUpdate(id) {
   router.push(`/admin/pair/update/${id}`)
+}
+function handleDelete(id){
+  mutation.mutateAsync(id)
 }
 </script>
 

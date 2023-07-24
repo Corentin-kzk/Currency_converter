@@ -100,7 +100,8 @@ class PairController extends Controller
      */
     public function destroy(Pair $Pair)
     {
-        //
+        $Pair->delete();
+        return response()->json(['message' => 'Success'], 200);
     }
 
     /**

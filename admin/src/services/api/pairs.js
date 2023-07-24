@@ -21,4 +21,9 @@ export async function getPair(id) {
    return pairs.data
 }
 
+export async function deletePair(id) {
+   const pair = await axiosInstance.delete(`api/admin/pairs/${id}`);
+   return pair
+}
+
 export const QUERY_KEY_PAIRS = "QK_Pairs"

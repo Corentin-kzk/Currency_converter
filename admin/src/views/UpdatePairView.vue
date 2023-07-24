@@ -1,12 +1,10 @@
 <script setup>
 import { defineProps, reactive } from "vue";
-import { useQuery, useMutation } from "@tanstack/vue-query";
+import { useQuery, useMutation,useQueryClient } from "@tanstack/vue-query";
 import { QUERY_KEY_PAIRS, getPair, updatePair } from "../services/api/pairs"
-import { QueryClient } from '@tanstack/vue-query'
 import router from "@/router";
 
-const queryClient = new QueryClient()
-
+const queryClient = useQueryClient()
 
 const props = defineProps({
     id: {
