@@ -20,7 +20,7 @@ const routes = [
 
 <template>
   <v-app-bar color="black" scroll-behavior="elevate">
-    <v-app-bar-title>Currency Converter</v-app-bar-title>
+    <v-app-bar-title>Money converter</v-app-bar-title>
 
     <!-- Menu Mobile -->
     <v-menu v-if="isSmartPhone">

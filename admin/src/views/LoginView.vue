@@ -20,7 +20,7 @@ const rules = {
 
 <template>
   <div class="center">
-    <h1 style="text-align: center;">Currency converter</h1>
+    <h1 style="text-align: center;">Money converter</h1>
     <v-card
       class="mx-auto pa-12 pb-8"
       elevation="8"

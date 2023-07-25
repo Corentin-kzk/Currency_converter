@@ -60,8 +60,8 @@ function handleDelete(pair) {
           </thead>
           <tbody>
             <tr v-for="item in pairs" :key="item.from">
-              <td>{{ item.from }}</td>
-              <td>{{ item.to }}</td>
+              <td>{{item.from_name}} <span>({{ item.from }})</span> </td>
+              <td> {{item.to_name}} <span>({{ item.to }})</span> </td>
               <td>{{ item.conversion_rate }}</td>
               <td>{{ item.count }}</td>
               <td> <v-btn density="compact" color="green" @click="handleUpdate(item.id)">Update</v-btn>
@@ -95,5 +95,10 @@ function handleDelete(pair) {
 <style scoped>
 td {
   width: 25%;
+}
+
+td > span {
+  font-size: 12px;
+  font-style: italic;
 }
 </style>

@@ -23,7 +23,9 @@ class PairController extends Controller
                 return [
                     'id' => $pair->id,
                     'from' => $pair->currencyFrom->code,
+                    'from_name' => $pair->currencyFrom->name,
                     'to' => $pair->currencyTo->code,
+                    'to_name' => $pair->currencyTo->name,
                     'conversion_rate' => $pair->conversion_rate,
                     'count' => $pair->count,
                 ];
@@ -49,22 +51,22 @@ class PairController extends Controller
         // Récupérer les devises correspondant aux valeurs "from" et "to"
         $fromCurrency = Currency::where('name', $validatedData['from'])->first();
         $toCurrency = Currency::where('name', $validatedData['to'])->first();
-        
+
         // Vérifier si les devises existent en base de données
         if (!$fromCurrency || !$toCurrency) {
-           
+
             return response()->json(['message' => 'currency not found'], 404);
         }
-        
+
         // Vérifier si la paire existe en base de données
-        $pairAlreadyExist = Pair::where('to_currency_id', $toCurrency->id)->where('from_currency_id',$fromCurrency->id)->first();
+        $pairAlreadyExist = Pair::where('to_currency_id', $toCurrency->id)->where('from_currency_id', $fromCurrency->id)->first();
         if ($pairAlreadyExist) {
             return response()->json(['message' => 'This pair already exist'], 302);
         }
 
-        Pair::create(['to_currency_id' => $toCurrency->id, 'from_currency_id' =>  $fromCurrency->id, 'conversion_rate'=>  $validatedData['conversion_rate']]);
+        Pair::create(['to_currency_id' => $toCurrency->id, 'from_currency_id' =>  $fromCurrency->id, 'conversion_rate' =>  $validatedData['conversion_rate']]);
 
-        return response()->json(['message'=>'success'], 200);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -103,6 +105,27 @@ class PairController extends Controller
     {
         $Pair->delete();
         return response()->json(['message' => 'Success'], 200);
+    }
+
+    public function publicIndex()
+    {
+        try {
+            $pairs = Pair::with('currencyFrom', 'currencyTo')->get();
+
+            // // Remplacer les identifiants par les codes de devise dans chaque paire
+            $pairs->transform(function ($pair) {
+                return [
+                    'id' => $pair->id,
+                    'from' => $pair->currencyFrom->code,
+                    'to' => $pair->currencyTo->code,
+                    'conversion_rate' => $pair->conversion_rate,
+                ];
+            });
+
+            return response()->json(['pairs' => $pairs], 200);
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), $th->getCode());
+        }
     }
 
     /**

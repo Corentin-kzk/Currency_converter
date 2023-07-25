@@ -29,7 +29,7 @@ import DocComponent from '@/components/DocComponent.vue';
     arguments: 'None',
     successfulResponse: '200 OK with a list of available currency pairs and their exchange rates.',
     exampleRequest: '/api/pairs',
-    exampleResponse: '{"pairs":<br/>[{"from":"GBP","to":"EUR","conversion_rate":"0.4000"},<br/>{"from":"GBP","to":"USD","conversion_rate":"0.3000"}<br/>]}'
+    exampleResponse: '{"pairs":<br/>[{"id": 1,"from":"GBP","to":"EUR","conversion_rate":"0.4000"},<br/>{"id": 2,"from":"GBP","to":"USD","conversion_rate":"0.3000"}<br/>]}'
   },
   {
     route: '/api/convert',
@@ -51,9 +51,9 @@ import DocComponent from '@/components/DocComponent.vue';
         cols="12"
         sm="12"
       >
-      <h1 class="mb-2">CurrencyConverter API Documentation</h1>
+      <h1 class="mb-2">MoneyConverter API Documentation</h1>
       <P>Welcome to the MoneyConverter API documentation! This API allows you to convert amounts between different currencies. Below are the available routes along with the details for each route.</P>
-      <h2 class="mb-2 mt-1">API Name: CurrencyConverter</h2>
+      <h2 class="mb-2 mt-1">API Name: MoneyConverter</h2>
       <h2 class="mb-2">Base URL: {{url}}/api</h2>
       </v-col>
     </v-row>
