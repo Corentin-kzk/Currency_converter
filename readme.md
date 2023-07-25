@@ -93,6 +93,19 @@ yarn serve
 
 L'application frontend sera accessible à l'adresse http://localhost:3000.
 
+
+## Connexion a l'interface Admin
+
+**Formulaire de Connexion pour les Administrateurs**
+
+Le formulaire de connexion est masqué afin que seuls les administrateurs y aient accès. Vous pouvez le trouver à l'adresse spécifiée pour votre application, qui peut varier selon sa configuration. Généralement, vous pourrez le trouver à l'URL suivante : `http://votre_nom_de_domaine/login`.
+
+**Identifiants de Connexion :**
+
+- Email : admin@admin.com
+- Mot de passe : admin123
+
+
 ## Fonctionnalités
 
 Liste des fonctionnalités clés de MoneyConverter :
