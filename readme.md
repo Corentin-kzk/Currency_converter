@@ -51,7 +51,7 @@ php artisan key:generate
 10. Migrez la base de données avec les seeders :
 
 ```bash
-php artisan migrate -seed
+php artisan migrate --seed
 ```
 
 11. Démarrez le serveur de développement :
