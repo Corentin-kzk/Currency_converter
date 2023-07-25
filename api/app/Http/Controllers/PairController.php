@@ -49,14 +49,15 @@ class PairController extends Controller
         // Récupérer les devises correspondant aux valeurs "from" et "to"
         $fromCurrency = Currency::where('name', $validatedData['from'])->first();
         $toCurrency = Currency::where('name', $validatedData['to'])->first();
-
+        
         // Vérifier si les devises existent en base de données
         if (!$fromCurrency || !$toCurrency) {
+           
             return response()->json(['message' => 'currency not found'], 404);
         }
         
         // Vérifier si la paire existe en base de données
-        $pairAlreadyExist = Pair::where('to_currency_id', $toCurrency->id)->where('from_currency_id',$fromCurrency->id)->firstOrFail();
+        $pairAlreadyExist = Pair::where('to_currency_id', $toCurrency->id)->where('from_currency_id',$fromCurrency->id)->first();
         if ($pairAlreadyExist) {
             return response()->json(['message' => 'This pair already exist'], 302);
         }
