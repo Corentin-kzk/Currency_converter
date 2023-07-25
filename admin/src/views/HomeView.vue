@@ -77,7 +77,7 @@ function handleDelete(pair) {
         <v-card-title class="text-h5 text-center">
           Are you sure you want to delete this pair?
         </v-card-title>
-        <v-card-text class="text-center"> {{ dialog.from }} -> {{ dialog.to }}</v-card-text>
+        <v-card-text class="text-center"> {{dialog.from_name}} <span>({{ dialog.from }})</span> <v-icon icon="mdi-arrow-right"></v-icon> {{dialog.to_name}} <span>({{ dialog.to }})</span></v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green-darken-1" variant="text" @click="dialog = false">
@@ -97,7 +97,7 @@ td {
   width: 25%;
 }
 
-td > span {
+span {
   font-size: 12px;
   font-style: italic;
 }

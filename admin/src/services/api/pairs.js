@@ -2,7 +2,7 @@ import axiosInstance from "@/services/axios";
 import { store } from "../auth";
 
 export async function getPairs() {
-   const pairs = await axiosInstance.get("/api/pairs");
+   const pairs = await axiosInstance.get("/api/admin/pairs");
    return pairs.data.pairs
 }
 

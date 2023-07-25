@@ -12,6 +12,7 @@ const form = reactive({
     to: "",
     conversion_rate: ""
 })
+const errors = ref(null)
 
 const mutation = useMutation({
     mutationFn: createPair,
@@ -19,10 +20,12 @@ const mutation = useMutation({
         queryClient.invalidateQueries({ queryKey: [QUERY_KEY_PAIRS] })
         router.push('/admin')
     },
+    onError: (err) => {
+        errors.value = err?.message
+    }
 })
 
 const currenciesSelectValue = ref([])
-const errors = ref({})
 
 
 const { isLoading, isSuccess } = useQuery({
@@ -39,10 +42,10 @@ function onUpdateSubmit() {
 
 watch(form, () => {
     if (form.from && form.from === form.to) {
-        errors.value = { currency: "The currencies cannot be the same." }
+        errors.value =  "The currencies cannot be the same." 
         return 
     }
-    errors.value = {}
+    errors.value = null
 });
 
 
@@ -57,11 +60,11 @@ const rules = {
         <v-row>
             <h1>Create Pair</h1>
         </v-row>
-        <v-row v-if="isLoading && !isSuccess">
+        <v-row v-if="isLoading && !isSuccess" align="center">
             <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
         </v-row>
         <v-form @submit.prevent="onUpdateSubmit" v-else>
-            <v-row>
+            <v-row align="center">
                 <v-col>
                     <v-responsive class="mx-auto my-4">
 
@@ -76,13 +79,13 @@ const rules = {
                     </v-responsive>
                 </v-col>
             </v-row>
-            <v-alert type="error" v-if="errors?.currency" :text="errors.currency" class="mb-2" />
+            <v-alert type="error" v-if="!!errors" :text="errors" class="mb-2" />
 
             <v-responsive class="mx-auto my-4">
                 <v-text-field v-model="form.conversion_rate" clearable hide-details="auto" label="Conversion rate"
                     :rules="[rules.required, rules.mustBeNumber]"></v-text-field>
             </v-responsive>
-            <v-btn block type="submit" :disabled="!!errors?.currency" class="mb-8" color="blue" size="large"
+            <v-btn block type="submit" :disabled="!!errors" class="mb-8" color="blue" size="large"
                 variant="green">
                 Add new pair
             </v-btn>

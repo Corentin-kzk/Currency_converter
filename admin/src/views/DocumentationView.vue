@@ -9,7 +9,7 @@ import DocComponent from '@/components/DocComponent.vue';
     description: 'This route is used to check if the API is online and functioning correctly.',
     method: 'GET',
     arguments: 'None',
-    successfulResponse: '200 OK with the text "pong"',
+    successfulResponse: '200 OK with message',
     exampleRequest: '/api/ping',
     exampleResponse: "The Laravel server is online and functioning correctly."
   },

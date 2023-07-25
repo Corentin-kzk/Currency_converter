@@ -16,19 +16,19 @@ class CurrencyFactory extends Factory
     // Liste de devises monétaires et leurs codes
    
     protected $currencies = [
-        ['name'=> 'Euro', 'code'=> 'EUR'],
-        ['name'=> 'Dollar américain', 'code'=> 'USD'],
-        ['name'=> 'Livre sterling', 'code'=> 'GBP'],
-        ['name'=> 'Yen japonais', 'code'=> 'JPY'],
-        ['name'=> 'Dollar canadien', 'code'=> 'CAD'],
-        ['name'=> 'Franc suisse', 'code'=> 'CHF'],
-        ['name'=> 'Dollar australien', 'code'=> 'AUD'],
-        ['name'=> 'Yuan chinois', 'code'=> 'CNY'],
-        ['name'=> 'Peso mexicain', 'code'=> 'MXN'],
-        ['name'=> 'Roupie indienne', 'code'=> 'INR'],
-        ['name'=> 'Dollar néo-zélandais', 'code'=> 'NZD'],
-        ['name'=> 'Won sud-coréen', 'code'=> 'KRW'],
-        ['name'=> 'Dollar singapourien', 'code'=> 'SGD']
+        ['name' => 'Euro', 'code' => 'EUR'],
+        ['name' => 'United States Dollar', 'code' => 'USD'],
+        ['name' => 'British Pound Sterling', 'code' => 'GBP'],
+        ['name' => 'Japanese Yen', 'code' => 'JPY'],
+        ['name' => 'Canadian Dollar', 'code' => 'CAD'],
+        ['name' => 'Swiss Franc', 'code' => 'CHF'],
+        ['name' => 'Australian Dollar', 'code' => 'AUD'],
+        ['name' => 'Chinese Yuan', 'code' => 'CNY'],
+        ['name' => 'Mexican Peso', 'code' => 'MXN'],
+        ['name' => 'Indian Rupee', 'code' => 'INR'],
+        ['name' => 'New Zealand Dollar', 'code' => 'NZD'],
+        ['name' => 'South Korean Won', 'code' => 'KRW'],
+        ['name' => 'Singapore Dollar', 'code' => 'SGD']
     ];
 
     /**

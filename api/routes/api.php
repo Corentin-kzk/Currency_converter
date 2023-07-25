@@ -28,5 +28,5 @@ Route::group(['prefix'=>'admin', 'middleware'=> 'auth:sanctum'] ,function () {
 
 Route::get('/pairs', [PairController::class, 'publicIndex']);
 Route::get('/count', [PairController::class, 'getCountByCurrenciesCode']);
-Route::get('/convertion', [PairController::class, 'getConvertedDataFromPair']);
+Route::get('/convert', [PairController::class, 'getConvertedDataFromPair']);
 Route::get('/ping', [ServerStatusController::class, 'serverStatus']);

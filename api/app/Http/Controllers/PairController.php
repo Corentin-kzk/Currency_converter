@@ -146,10 +146,10 @@ class PairController extends Controller
             $amoutToConvert = $request->input('amount');
 
             // Récupérer les identifiants des devises associées aux codes de devises "from" et "to"
-            $fromCurrency = Currency::where('code', $fromCurrencyCode)->firstOrFail();
-            $toCurrency = Currency::where('code', $toCurrencyCode)->firstOrFail();
+            $fromCurrency = Currency::where('code', $fromCurrencyCode)->first();
+            $toCurrency = Currency::where('code', $toCurrencyCode)->first();
 
-            $conversionRatefromPair = Pair::select(['conversion_rate', 'id'])->where('from_currency_id', $fromCurrency->id)->where('to_currency_id', $toCurrency->id)->firstOrFail();
+            $conversionRatefromPair = Pair::select(['conversion_rate', 'id'])->where('from_currency_id', $fromCurrency->id)->where('to_currency_id', $toCurrency->id)->first();
 
             $convertedValue =  $conversionRatefromPair->conversion_rate * $amoutToConvert;
             //Ajoute +1 au field count a chaque appel de l'api
@@ -157,9 +157,10 @@ class PairController extends Controller
             $pair->count += 1;
             $pair->update();
 
-            return response()->json([
-                ["converted_value" => $convertedValue], 200
-            ]);
+            return response()->json(
+                ["converted_value" => $convertedValue],
+                200
+            );
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), $th->getCode());
         }
