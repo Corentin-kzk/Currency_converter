@@ -86,9 +86,9 @@ cp .env.example .env
 15. Lancez l'application en mode de développement :
 
 ```bash
-npm run serve
+npm run dev
 # ou
-yarn serve
+yarn dev
 ```
 
 L'application frontend sera accessible à l'adresse http://localhost:3000.
